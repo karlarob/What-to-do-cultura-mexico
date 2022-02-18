@@ -1,4 +1,3 @@
-import useGetData from "../hooks/useGetData";
 import {
   GoogleMap,
   LoadScript,
@@ -6,19 +5,12 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import { useContext, useState } from "react";
-import { OptionContext, SeleccionarTipo } from "../context/OptionContext";
-import { map } from "leaflet";
+import { OptionContext } from "../context/OptionContext";
 import { Biblioteca } from "../data/biblioteca";
 import { CasaArtesania } from "../data/casa_artesania";
 import { CentroCultural } from "../data/centro_cultural";
 import { Galeria } from "../data/galeria";
 import { Teatro } from "../data/teatro";
-
-//   const geoUrl =
-//     "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
-
-const geoUrl =
-  "https://gist.githubusercontent.com/leenoah1/535b386ec5f5abdb2142258af395c388/raw/a045778d28609abc036f95702d6a44045ae7ca99/geo-data.json";
 
 const containerStyle = {
   width: "100%",
@@ -51,41 +43,26 @@ const MapHolder = () => {
   switch (selectedType) {
     case "Biblioteca":
       BibliotecaFilter = Biblioteca.filter((biblioItem) => {
-        console.log("selectedCity", selectedCity);
-        console.log("biblio", biblioItem.nom_ent);
-        console.log(biblioItem.nom_ent === selectedCity);
         return biblioItem.nom_ent === selectedCity;
       });
       break;
     case "Casa artesania":
       CasaArtesaniaFilter = CasaArtesania.filter((casaItem) => {
-        console.log("selectedCity", selectedCity);
-        console.log("biblio", casaItem.nom_ent);
-        console.log(casaItem.nom_ent === selectedCity);
         return casaItem.nom_ent === selectedCity;
       });
       break;
     case "Centro cultural":
       CentroCulturalFilter = CentroCultural.filter((centroItem) => {
-        console.log("selectedCity", selectedCity);
-        console.log("biblio", centroItem.nom_ent);
-        console.log(centroItem.nom_ent === selectedCity);
         return centroItem.nom_ent === selectedCity;
       });
       break;
     case "Galería":
       GaleriaFilter = Galeria.filter((galeriaItem) => {
-        console.log("selectedCity", selectedCity);
-        console.log("biblio", galeriaItem.nom_ent);
-        console.log(galeriaItem.nom_ent === selectedCity);
         return galeriaItem.nom_ent === selectedCity;
       });
       break;
     case "Teatro":
       TeatroFilter = Teatro.filter((teatroItem) => {
-        console.log("selectedCity", selectedCity);
-        console.log("biblio", teatroItem.nom_ent);
-        console.log(teatroItem.nom_ent === selectedCity);
         return teatroItem.nom_ent === selectedCity;
       });
       break;
