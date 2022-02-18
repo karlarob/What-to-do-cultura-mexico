@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { OptionContext, SeleccionarTipo } from "../context/OptionContext";
+import { OptionContext } from "../context/OptionContext";
 
 const CardHolder = () => {
   const tipoLista = [

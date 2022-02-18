@@ -33,8 +33,7 @@ const MapHolder = () => {
     setActiveMarker(marker);
   };
 
-  const { selectedCity, selectedType, seleccionState } =
-    useContext(OptionContext);
+  const { selectedCity, selectedType } = useContext(OptionContext);
   let BibliotecaFilter = Biblioteca,
     CasaArtesaniaFilter = CasaArtesania,
     CentroCulturalFilter = CentroCultural,
