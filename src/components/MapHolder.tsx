@@ -15,7 +15,9 @@ const containerStyle = {
 };
 
 const MapHolder = () => {
-  const { biblioteca, casa, centro, galeria, teatro } = useGetData();
+  const { selectedType, selectedCity } = useContext(OptionContext);
+  const { biblioteca, casa, centro, galeria, teatro } =
+    useGetData(selectedCity);
   const { zoom, center } = useChangeCenter();
   const [activeMarker, setActiveMarker] = useState(null);
 
@@ -26,7 +28,6 @@ const MapHolder = () => {
     setActiveMarker(marker);
   };
 
-  const { selectedType } = useContext(OptionContext);
   // let BibliotecaFilter = biblioteca,
   //   CasaArtesaniaFilter = casa,
   //   CentroCulturalFilter = centro,
