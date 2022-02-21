@@ -15,9 +15,10 @@ export type SeleccionarTipo =
 export const OptionContext = createContext({} as ContextProps);
 
 const OptionProvider: FC = ({ children }) => {
-  const [selectedType, setSelectedType] = useState("Aguascalientes");
-  const [selectedCity, setSelectedCity] = useState("Biblioteca");
+  const [selectedType, setSelectedType] = useState("Biblioteca");
+  const [selectedCity, setSelectedCity] = useState("Aguascalientes");
   const [seleccionState] = useState<SeleccionarTipo>();
+
   return (
     <OptionContext.Provider
       value={{

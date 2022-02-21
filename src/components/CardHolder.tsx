@@ -44,6 +44,7 @@ const CardHolder = () => {
     "Zacatecas",
   ];
   const { setSelectedCity, setSelectedType } = useContext(OptionContext);
+
   return (
     <div className="options-holder-container">
       <select
@@ -74,7 +75,6 @@ const CardHolder = () => {
           </option>
         ))}
       </select>
-      <button>GO</button>
     </div>
   );
 };

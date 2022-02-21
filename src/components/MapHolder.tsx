@@ -3,27 +3,26 @@ import {
   LoadScript,
   Marker,
   InfoWindow,
+  useGoogleMap,
 } from "@react-google-maps/api";
 import { useContext, useState } from "react";
 import { OptionContext } from "../context/OptionContext";
-import { Biblioteca } from "../data/biblioteca";
-import { CasaArtesania } from "../data/casa_artesania";
-import { CentroCultural } from "../data/centro_cultural";
-import { Galeria } from "../data/galeria";
-import { Teatro } from "../data/teatro";
+import useChangeCenter from "../hooks/useChangeCenter";
+import useGetData from "../hooks/useGetData";
 
 const containerStyle = {
   width: "100%",
   height: "100vh",
 };
 
-const center = {
+let center = {
   lat: 21.248,
   lng: -100.305,
 };
 
 const MapHolder = () => {
-  //   const { biblioteca, casa, centro, galeria, teatro } = useGetData();
+  const { biblioteca, casa, centro, galeria, teatro } = useGetData();
+  const { zoom, center } = useChangeCenter();
   const [activeMarker, setActiveMarker] = useState(null);
 
   const handleActiveMarker = (marker: any) => {
@@ -34,38 +33,50 @@ const MapHolder = () => {
   };
 
   const { selectedCity, selectedType } = useContext(OptionContext);
-  let BibliotecaFilter = Biblioteca,
-    CasaArtesaniaFilter = CasaArtesania,
-    CentroCulturalFilter = CentroCultural,
-    GaleriaFilter = Galeria,
-    TeatroFilter = Teatro;
-  switch (selectedType) {
-    case "Biblioteca":
-      BibliotecaFilter = Biblioteca.filter((biblioItem) => {
-        return biblioItem.nom_ent === selectedCity;
-      });
-      break;
-    case "Casa artesania":
-      CasaArtesaniaFilter = CasaArtesania.filter((casaItem) => {
-        return casaItem.nom_ent === selectedCity;
-      });
-      break;
-    case "Centro cultural":
-      CentroCulturalFilter = CentroCultural.filter((centroItem) => {
-        return centroItem.nom_ent === selectedCity;
-      });
-      break;
-    case "Galería":
-      GaleriaFilter = Galeria.filter((galeriaItem) => {
-        return galeriaItem.nom_ent === selectedCity;
-      });
-      break;
-    case "Teatro":
-      TeatroFilter = Teatro.filter((teatroItem) => {
-        return teatroItem.nom_ent === selectedCity;
-      });
-      break;
-  }
+  // let BibliotecaFilter = biblioteca,
+  //   CasaArtesaniaFilter = casa,
+  //   CentroCulturalFilter = centro,
+  //   GaleriaFilter = galeria,
+  //   TeatroFilter = teatro;
+  // switch (selectedType) {
+  //   case "Biblioteca":
+  //     BibliotecaFilter = biblioteca.filter((biblioItem) => {
+  //       return biblioItem.nom_ent === selectedCity;
+  //     });
+  //     setZoom(10);
+  //     console.log(BibliotecaFilter[0]);
+  //     // if (
+  //     //   BibliotecaFilter[0].gmaps_latitud &&
+  //     //   BibliotecaFilter[0].gmaps_longitud
+  //     // ) {
+  //     //   center = {
+  //     //     lat: BibliotecaFilter[0].gmaps_latitud,
+  //     //     lng: BibliotecaFilter[0].gmaps_longitud,
+  //     //   };
+  //     // }
+
+  //     break;
+  //   case "Casa artesania":
+  //     CasaArtesaniaFilter = casa.filter((casaItem) => {
+  //       return casaItem.nom_ent === selectedCity;
+  //     });
+  //     break;
+  //   case "Centro cultural":
+  //     CentroCulturalFilter = centro.filter((centroItem) => {
+  //       return centroItem.nom_ent === selectedCity;
+  //     });
+  //     break;
+  //   case "Galería":
+  //     GaleriaFilter = galeria.filter((galeriaItem) => {
+  //       return galeriaItem.nom_ent === selectedCity;
+  //     });
+  //     break;
+  //   case "Teatro":
+  //     TeatroFilter = teatro.filter((teatroItem) => {
+  //       return teatroItem.nom_ent === selectedCity;
+  //     });
+  //     break;
+  // }
   return (
     <>
       <LoadScript googleMapsApiKey="AIzaSyBqyq_44KjHUSV6VWm7zcvbXLjprgIVS5Y">
@@ -73,10 +84,10 @@ const MapHolder = () => {
           mapContainerStyle={containerStyle}
           onClick={() => setActiveMarker(null)}
           center={center}
-          zoom={6}
+          zoom={zoom}
         >
           {selectedType === "Biblioteca"
-            ? BibliotecaFilter.map((biblio_item, idx) => (
+            ? biblioteca.map((biblio_item, idx) => (
                 <Marker
                   key={idx}
                   onClick={() => handleActiveMarker(idx)}
@@ -89,8 +100,8 @@ const MapHolder = () => {
                     strokeWeight: 2,
                   }}
                   position={{
-                    lat: biblio_item.gmaps_latitud,
-                    lng: biblio_item.gmaps_longitud,
+                    lat: parseFloat(biblio_item.gmaps_latitud),
+                    lng: parseFloat(biblio_item.gmaps_longitud),
                   }}
                 >
                   {activeMarker === idx ? (
@@ -101,7 +112,7 @@ const MapHolder = () => {
                 </Marker>
               ))
             : selectedType === "Casa artesania"
-            ? CasaArtesaniaFilter.map((artesania_item, idx) => (
+            ? casa.map((artesania_item, idx) => (
                 <Marker
                   key={idx}
                   onClick={() => handleActiveMarker(idx)}
@@ -114,8 +125,8 @@ const MapHolder = () => {
                     strokeWeight: 2,
                   }}
                   position={{
-                    lat: artesania_item.gmaps_latitud,
-                    lng: artesania_item.gmaps_longitud,
+                    lat: parseFloat(artesania_item.gmaps_latitud),
+                    lng: parseFloat(artesania_item.gmaps_longitud),
                   }}
                 >
                   {" "}
@@ -127,7 +138,7 @@ const MapHolder = () => {
                 </Marker>
               ))
             : selectedType === "Centro cultural"
-            ? CentroCulturalFilter.map((centro_item, idx) => (
+            ? centro.map((centro_item, idx) => (
                 <Marker
                   key={idx}
                   onClick={() => handleActiveMarker(idx)}
@@ -140,8 +151,8 @@ const MapHolder = () => {
                     strokeWeight: 2,
                   }}
                   position={{
-                    lat: centro_item.gmaps_latitud,
-                    lng: centro_item.gmaps_longitud,
+                    lat: parseFloat(centro_item.gmaps_latitud),
+                    lng: parseFloat(centro_item.gmaps_longitud),
                   }}
                 >
                   {" "}
@@ -153,7 +164,7 @@ const MapHolder = () => {
                 </Marker>
               ))
             : selectedType === "Galería"
-            ? GaleriaFilter.map((galeria_item, idx) => (
+            ? galeria.map((galeria_item, idx) => (
                 <Marker
                   key={idx}
                   onClick={() => handleActiveMarker(idx)}
@@ -166,8 +177,8 @@ const MapHolder = () => {
                     strokeWeight: 2,
                   }}
                   position={{
-                    lat: galeria_item.gmaps_latitud,
-                    lng: galeria_item.gmaps_longitud,
+                    lat: parseFloat(galeria_item.gmaps_latitud),
+                    lng: parseFloat(galeria_item.gmaps_longitud),
                   }}
                 >
                   {" "}
@@ -179,24 +190,23 @@ const MapHolder = () => {
                 </Marker>
               ))
             : selectedType === "Teatro"
-            ? TeatroFilter.map((teatro_item, idx) => (
+            ? teatro.map((teatro_item, idx) => (
                 <Marker
                   key={idx}
                   onClick={() => handleActiveMarker(idx)}
                   icon={{
                     path: "M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0z",
-                    fillColor: "#cbf2d1",
+                    fillColor: "#ffabab",
                     fillOpacity: 0.9,
                     scale: 0.05,
-                    strokeColor: "#8fef9f",
+                    strokeColor: "#f05c5c",
                     strokeWeight: 2,
                   }}
                   position={{
-                    lat: teatro_item.gmaps_latitud,
-                    lng: teatro_item.gmaps_longitud,
+                    lat: parseFloat(teatro_item.gmaps_latitud),
+                    lng: parseFloat(teatro_item.gmaps_longitud),
                   }}
                 >
-                  {" "}
                   {activeMarker === idx ? (
                     <InfoWindow onCloseClick={() => setActiveMarker(null)}>
                       <div>{teatro_item.teatro_nombre}</div>
