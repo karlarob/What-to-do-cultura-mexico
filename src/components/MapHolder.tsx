@@ -3,7 +3,6 @@ import {
   LoadScript,
   Marker,
   InfoWindow,
-  useGoogleMap,
 } from "@react-google-maps/api";
 import { useContext, useState } from "react";
 import { OptionContext } from "../context/OptionContext";
@@ -13,11 +12,6 @@ import useGetData from "../hooks/useGetData";
 const containerStyle = {
   width: "100%",
   height: "100vh",
-};
-
-let center = {
-  lat: 21.248,
-  lng: -100.305,
 };
 
 const MapHolder = () => {
@@ -32,7 +26,7 @@ const MapHolder = () => {
     setActiveMarker(marker);
   };
 
-  const { selectedCity, selectedType } = useContext(OptionContext);
+  const { selectedType } = useContext(OptionContext);
   // let BibliotecaFilter = biblioteca,
   //   CasaArtesaniaFilter = casa,
   //   CentroCulturalFilter = centro,

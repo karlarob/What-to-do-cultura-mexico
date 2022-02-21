@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { OptionContext } from "../context/OptionContext";
-import useGetData from "./useGetData";
 const useChangeCenter = () => {
-  const { selectedCity, selectedType } = useContext(OptionContext);
-  const { biblioteca, casa, centro, galeria, teatro } = useGetData();
+  const { selectedCity } = useContext(OptionContext);
   const [center, setCenter] = useState({
     lat: 21.248,
     lng: -100.305,
